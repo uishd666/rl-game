@@ -2,6 +2,7 @@ import gymnasium as gym
 import numpy as np
 from gymnasium import spaces
 import os
+import matplotlib.pyplot as plt
 
 class GridWorldEnv(gym.Env):
     metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 4}
@@ -114,11 +115,11 @@ class GridWorldEnv(gym.Env):
         
         return self._get_obs(), reward, terminated, truncated, {}
     
-    def render(self):
+    def render(self, save_path=None):
         """渲染当前状态"""
         if self.render_mode is None:
             return None
-        
+
         # 创建可视化地图
         viz_map = []
         for i in range(self.height):
@@ -135,7 +136,28 @@ class GridWorldEnv(gym.Env):
                 else:
                     row.append('*')
             viz_map.append(''.join(row))
-        
+
+        if save_path:
+            # 保存为图片
+            plt.figure(figsize=(8, 8))
+            for i, row in enumerate(viz_map):
+                for j, char in enumerate(row):
+                    color = "white"
+                    if char == '#':
+                        color = "black"
+                    elif char == 'A':
+                        color = "blue"
+                    elif char == '@':
+                        color = "green"
+                    elif char == '$':
+                        color = "red"
+                    plt.gca().add_patch(plt.Rectangle((j, self.height - i - 1), 1, 1, color=color))
+            plt.xlim(0, self.width)
+            plt.ylim(0, self.height)
+            plt.axis("off")
+            plt.savefig(save_path)
+            plt.close()
+
         print("\n".join(viz_map))
         print("-" * self.width)
         return viz_map
