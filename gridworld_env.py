@@ -85,6 +85,15 @@ class GridWorldEnv(gym.Env):
     def step(self, action):
         """执行动作并返回结果"""
         self.step_count += 1
+
+        # fix bug
+        # 确保 action 是整数
+        if isinstance(action, np.ndarray):
+            action = action.item()  # 如果是数组，提取标量值
+        elif isinstance(action, (list, tuple)):
+            action = int(action[0])  # 如果是列表或元组，取第一个元素
+        else:
+            action = int(action)  # 确保是整数
         
         # 计算新位置
         delta = self.action_to_delta[action]
