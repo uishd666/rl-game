@@ -80,7 +80,7 @@ class GridWorldEnv(gym.Env):
     
     def _get_obs(self):
         """获取当前状态观测"""
-        return self.current_pos.copy()
+        return self.current_pos.copy().astype(np.int32)
     
     def step(self, action):
         """执行动作并返回结果"""
