@@ -32,11 +32,13 @@ python test.py --map map.txt --model model.zip
 
 ## Project Structure
 
+```
 ├── gridworld_env.py # Custom grid world environment
 ├── train.py # Training script ├── test.py # Testing and evaluation
 ├── maps/ # Maze map files
 ├── models/ # Saved trained models
 └── logs/ # Training logs
+```
 
 ## Map Format
 
